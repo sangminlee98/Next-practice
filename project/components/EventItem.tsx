@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import styles from "./EventItem.module.css";
 import { IDummyEvent } from "../types";
 
 interface IEventItem {
@@ -15,26 +16,25 @@ const EventItem = ({ item }: IEventItem) => {
   });
   const formattedAddress = item.location.replace(", ", "\n");
   return (
-    <li>
+    <li className={styles.item}>
       <Image
         src={"/" + item.image}
-        width="400px"
-        height="500px"
+        priority={item.id === "e2"}
+        width="100%"
+        height="10rem"
         alt={item.id}
       />
-      <div>
-        <div>
+      <div className={styles.content}>
+        <div className={styles.summary}>
           <h2>{item.title}</h2>
-          <div>
+          <div className={styles.date}>
             <time>{humanReadableDate}</time>
           </div>
-          <div>
-            <address style={{ wordBreak: "break-all" }}>
-              {formattedAddress}
-            </address>
+          <div className={styles.address}>
+            <address>{formattedAddress}</address>
           </div>
         </div>
-        <div>
+        <div className={styles.actions}>
           <Link href={`/events/${item.id}`}>Explore Event</Link>
         </div>
       </div>

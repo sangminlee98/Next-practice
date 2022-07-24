@@ -1,6 +1,7 @@
 import React from "react";
 import { IDummyEvent } from "../types";
 import EventItem from "./EventItem";
+import styles from "./EventList.module.css";
 
 interface IEventLIst {
   list: IDummyEvent[];
@@ -8,7 +9,7 @@ interface IEventLIst {
 
 const EventList = ({ list }: IEventLIst) => {
   return (
-    <ul>
+    <ul className={styles.list}>
       {list.map((item) => (
         <EventItem key={item.id} item={item} />
       ))}
