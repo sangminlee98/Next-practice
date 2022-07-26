@@ -1,5 +1,5 @@
 import React from "react";
-import { IDummyEvent } from "../types";
+import { IDummyEvent } from "../../types";
 import EventItem from "./EventItem";
 import styles from "./EventList.module.css";
 

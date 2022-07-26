@@ -2,7 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import styles from "./EventItem.module.css";
-import { IDummyEvent } from "../types";
+import { IDummyEvent } from "../../types";
+import Button from "../ui/Button";
+import DateIcon from "../icons/DateIcon";
+import AddressIcon from "../icons/AdressIcon";
+import ArrowRightIcon from "../icons/ArrowRightIcon";
 
 interface IEventItem {
   item: IDummyEvent;
@@ -19,23 +23,30 @@ const EventItem = ({ item }: IEventItem) => {
     <li className={styles.item}>
       <Image
         src={"/" + item.image}
-        priority={item.id === "e2"}
-        width="100%"
-        height="10rem"
+        width="200px"
+        height="200px"
+        priority
         alt={item.id}
       />
       <div className={styles.content}>
         <div className={styles.summary}>
           <h2>{item.title}</h2>
           <div className={styles.date}>
+            <DateIcon />
             <time>{humanReadableDate}</time>
           </div>
           <div className={styles.address}>
+            <AddressIcon />
             <address>{formattedAddress}</address>
           </div>
         </div>
         <div className={styles.actions}>
-          <Link href={`/events/${item.id}`}>Explore Event</Link>
+          <Button link={`/events/${item.id}`}>
+            <span>Explore Event</span>
+            <span className={styles.icon}>
+              <ArrowRightIcon />
+            </span>
+          </Button>
         </div>
       </div>
     </li>
