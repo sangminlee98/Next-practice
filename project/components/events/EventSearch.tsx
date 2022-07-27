@@ -1,21 +1,31 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useRef } from "react";
 import Button from "../ui/Button";
 import styles from "./EventSearch.module.css";
 
 const EventSearch = () => {
+  const router = useRouter();
+  const yearInputRef = useRef<HTMLSelectElement>(null);
+  const monthInputRef = useRef<HTMLSelectElement>(null);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const selectedYear = yearInputRef.current?.value;
+    const selectedMonth = monthInputRef.current?.value;
+    router.push(`/events/${selectedYear}/${selectedMonth}`);
+  };
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.controls}>
         <div className={styles.control}>
           <label htmlFor="year">Year</label>
-          <select id="year">
+          <select id="year" ref={yearInputRef}>
             <option value="2021">2021</option>
             <option value="2022">2022</option>
           </select>
         </div>
         <div className={styles.control}>
           <label htmlFor="month">Month</label>
-          <select id="month">
+          <select id="month" ref={monthInputRef}>
             <option value="1">1월</option>
             <option value="2">2월</option>
             <option value="3">3월</option>
