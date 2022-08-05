@@ -1,13 +1,12 @@
-import { GetStaticProps, NextPage } from "next";
-import path from "path";
-import fs from "fs/promises";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import React from "react";
-import { IProduct } from ".";
+import { getProducts, IProduct } from "../utils/getProducts";
 
 interface ProductDetailPageProps {
   product: IProduct;
 }
 const ProductDetailPage: NextPage<ProductDetailPageProps> = ({ product }) => {
+  if (!product) return <div>Loading...</div>; // product가 존재하지 않으면 로딩, fallback을 true로 했을 경우 필요한 코드 'blocking'으로 한 경우는 필요 없음
   return (
     <>
       <h1>{product.title}</h1>
@@ -21,15 +20,36 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // params는 키-값 쌍이 있는 객체이며 키의 식별자는 동적 경로 세그먼트
   const { params } = context;
   const productId = params?.pid;
-  const filePath = path.join(process.cwd(), "data", "dummy-backend.json"); // file경로를 루트 디렉토리의 data/dummy-backend.json
-  const jsonData = await fs.readFile(filePath); // dummy-backend.json 파일을 읽음
-  const { products }: { products: IProduct[] } = JSON.parse(
-    jsonData as unknown as string
-  );
+  const products = await getProducts();
+  const product = products.find((product) => product.id === productId); // products 배열 중 동적 매개변수 id값과 일치하는 데이터만 반환
+  if (!product) {
+    // product가 없으면 not found 페이지를 보여줌
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
-      product: products.find((product) => product.id === productId), // products 배열 중 동적 매개변수 id값과 일치하는 데이터만 반환
+      product,
     },
+  };
+};
+
+// 동적 페이지의 어떤 인스턴스를 생성할지 Next.js에 알리는 함수
+export const getStaticPaths: GetStaticPaths = async () => {
+  const products = await getProducts();
+  const ids = products.map((product) => product.id);
+  const paths = ids.map((id) => ({
+    params: { pid: id },
+  }));
+  return {
+    // paths: [
+    //   { params: { pid: "p1" } },
+    //   { params: { pid: "p2" } },
+    //   { params: { pid: "p3" } },
+    // ],
+    paths,
+    fallback: true, // true, false, 'blocking'
   };
 };
 
