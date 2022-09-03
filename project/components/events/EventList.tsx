@@ -1,13 +1,13 @@
 import React from "react";
-import { IDummyEvent } from "../../types";
+import { Event } from "../../types";
 import EventItem from "./EventItem";
 import styles from "./EventList.module.css";
 
-interface IEventLIst {
-  list: IDummyEvent[];
+interface IEventList {
+  list: Event[];
 }
 
-const EventList = ({ list }: IEventLIst) => {
+const EventList = ({ list }: IEventList) => {
   return (
     <ul className={styles.list}>
       {list.map((item) => (

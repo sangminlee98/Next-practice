@@ -2,14 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import styles from "./EventItem.module.css";
-import { IDummyEvent } from "../../types";
+import { Event, IDummyEvent } from "../../types";
 import Button from "../ui/Button";
 import DateIcon from "../icons/DateIcon";
 import AddressIcon from "../icons/AdressIcon";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
 
 interface IEventItem {
-  item: IDummyEvent;
+  item: Event;
 }
 
 const EventItem = ({ item }: IEventItem) => {

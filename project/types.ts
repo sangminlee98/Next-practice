@@ -7,3 +7,19 @@ export interface IDummyEvent {
   image: string;
   isFeatured: boolean;
 }
+
+export interface Events {
+  events: Event[];
+}
+
+declare global {
+  export interface Event {
+    date: Date;
+    description: string;
+    id: string;
+    image: string;
+    isFeatured: boolean;
+    location: string;
+    title: string;
+  }
+}
